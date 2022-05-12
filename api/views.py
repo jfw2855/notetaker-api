@@ -48,11 +48,21 @@ def getRoutes(request):
     ]
     return Response(routes)
 
-#Gets all note data
+#Gets all notes data
 @api_view(['GET'])
 def getNotes(request):
     #grabs all notes form psql
     notes = Note.objects.all()
     #serializes the python dicts into JSON
     serializer = NoteSerializer(notes, many=True)
+    return Response(serializer.data)
+
+
+#Gets single note data
+@api_view(['GET'])
+def getNote(request,pk):
+    #filters for note pk
+    note = Note.objects.get(id=pk)
+    #serializes the python dict into JSON
+    serializer = NoteSerializer(note, many=False)
     return Response(serializer.data)
