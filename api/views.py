@@ -66,3 +66,13 @@ def getNote(request,pk):
     #serializes the python dict into JSON
     serializer = NoteSerializer(note, many=False)
     return Response(serializer.data)
+
+#Updates single note
+@api_view(['PUT'])
+def updateNote(request,pk):
+    data = request.data
+    note = Note.objects.get(id=pk)
+    seralizer = NoteSerializer(instance=note,data=data)
+    if seralizer.is_valid():
+        seralizer.save()
+    return Response(seralizer.data)
